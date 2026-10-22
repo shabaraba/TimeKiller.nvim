@@ -9,7 +9,16 @@ Neovimのバッファ内で遊べる暇つぶしミニゲーム集。Neovim RPG 
 | `:TimeKillerSnake` | スネークゲーム |
 | `:TimeKiller2048` | 2048 |
 
-どちらも専用タブで起動する。
+引数で表示先を指定できる（例: `:TimeKillerSnake split`）。省略時は `setup()` の `layout`（既定は `float`）。
+
+| layout | 表示先 |
+|---|---|
+| `float` | 画面中央のフローティングウィンドウ |
+| `split` | 画面下部の横分割 |
+| `vsplit` | 画面右端の縦分割 |
+| `tab` | 専用タブ |
+
+終了すると、起動前のウィンドウへ戻る。
 
 共通操作:
 
@@ -22,7 +31,9 @@ Neovimのバッファ内で遊べる暇つぶしミニゲーム集。Neovim RPG 
 ```lua
 {
   "shabaraba/TimeKiller.nvim",
+  main = "timekiller",
   cmd = { "TimeKillerSnake", "TimeKiller2048" },
+  opts = { layout = "float" }, -- float | split | vsplit | tab
 }
 ```
 
@@ -33,6 +44,8 @@ Neovimのバッファ内で遊べる暇つぶしミニゲーム集。Neovim RPG 
 
 ## 構成
 
+- `lua/timekiller/config.lua` — 設定（`layout`）
+- `lua/timekiller/window.lua` — 表示先(float/split/vsplit/tab)の生成と破棄（共通）
 - `lua/timekiller/input.lua` — バッファローカルキーマップ（共通）
 - `lua/timekiller/snake/` — `state`(純粋ロジック) / `renderer` / `engine`(`vim.uv`タイマー) / `init`(ライフサイクル)
 - `lua/timekiller/game2048/` — `state` / `renderer`(キャンバス描画) / `animation` / `init`
